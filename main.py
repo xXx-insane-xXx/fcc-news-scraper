@@ -26,7 +26,12 @@ def scrape_fcc_news_and_return_newsDict():
 
         news = article.find("h2", class_="post-card-title")
         news_title = news.a.text.strip()
-        news_link = ("https://www.freecodecamp.org" + news.a["href"]).strip()
+
+        try:
+            news_link = ("https://www.freecodecamp.org" + news.a["href"]).strip()
+        except Exception as e:
+            news_link = None
+
         news_author = article.find("span", class_="meta-content").a.text.strip()
 
         news_dict[news_title] = [news_link, news_author]
@@ -47,13 +52,11 @@ def main():
     """
     Main function to execute the script.
     """
-    try:
-        news_dict = scrape_fcc_news_and_return_newsDict()
-        pretty_print_fcc_newsDict(news_dict)
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data: {e}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+
+    news_dict = scrape_fcc_news_and_return_newsDict()
+    pretty_print_fcc_newsDict(news_dict)
+
+
 
 
 if __name__ == "__main__":
