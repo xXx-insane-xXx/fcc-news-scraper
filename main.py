@@ -5,8 +5,11 @@ import csv
 
 
 def save_to_csv():
+    """
+    Asks whether to save the output as csv file.
+    """
     while True:
-        user = input("Do you want to save the output as csv file? ")
+        user = input("Do you want to save the output as csv file? (yes/no) ")
         if user == "yes".lower():
             return True
         elif user == "no".lower():
@@ -16,14 +19,15 @@ def save_to_csv():
 
 
 def write_to_csv(news_dict):
-    csv_file = open("fcc_scrape.csv", "w")
-    csv_writer = csv.writer(csv_file)
-    csv_writer.writerow(["Title", "Link", "Author"])
+    """
+    Saves the output as fcc_scrapper.csv file.
+    """
+    with open("fcc_scrape.csv", "w", newline="") as csv_file:
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["Title", "Link", "Author"])
 
-    for title, details in news_dict.items():
-        csv_writer.writerow([title, details[0], details[1]])
-
-    csv_file.close()
+        for title, details in news_dict.items():
+            csv_writer.writerow([title, details[0], details[1]])
 
 
 def get_source_html_text(url):
@@ -80,7 +84,6 @@ def main():
     if save_to_csv():
         write_to_csv(news_dict)
     else:
-        news_dict = scrape_fcc_news_and_return_newsDict()
         pretty_print_fcc_newsDict(news_dict)
 
 
