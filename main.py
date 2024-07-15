@@ -1,6 +1,29 @@
 #Import required modules
 from bs4 import BeautifulSoup
 import requests
+import csv
+
+
+def save_to_csv():
+    while True:
+        user = input("Do you want to save the output as csv file? ")
+        if user == "yes".lower():
+            return True
+        elif user == "no".lower():
+            return False
+        else:
+            print("Please enter a valid option: ")
+
+
+def write_to_csv(news_dict):
+    csv_file = open("fcc_scrape.csv", "w")
+    csv_writer = csv.writer(csv_file)
+    csv_writer.writerow(["Title", "Link", "Author"])
+
+    for title, details in news_dict.items():
+        csv_writer.writerow([title, details[0], details[1]])
+
+    csv_file.close()
 
 
 def get_source_html_text(url):
@@ -52,9 +75,13 @@ def main():
     """
     Main function to execute the script.
     """
-
     news_dict = scrape_fcc_news_and_return_newsDict()
-    pretty_print_fcc_newsDict(news_dict)
+
+    if save_to_csv():
+        write_to_csv(news_dict)
+    else:
+        news_dict = scrape_fcc_news_and_return_newsDict()
+        pretty_print_fcc_newsDict(news_dict)
 
 
 
