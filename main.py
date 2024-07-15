@@ -68,8 +68,8 @@ def scrape_fcc_news_and_return_newsDict():
     
 def pretty_print_fcc_newsDict(news_dict):
     """
-     Print the news articles in a formatted manner.
-     """
+    Print the news articles in a formatted manner.
+    """
     for counter, (title, details) in enumerate(news_dict.items(), start=1):
         print(f"{counter}. {title} \nLink: {details[0]} \nAuthor: {details[1]}")
         print()
